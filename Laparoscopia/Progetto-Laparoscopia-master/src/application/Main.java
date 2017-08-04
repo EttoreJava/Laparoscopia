@@ -1,23 +1,5 @@
 package application;
 	
-import javafx.application.Application;
-
-import javafx.stage.Stage;
-
-import userinterface.graphichandler.Axis;
-import userinterface.graphichandler.View;
-import userinterface.guihandler.WindowHandler;
-import userinterface.userinputshandlers.KeyboardInputsHandler;
-import userinterface.userinputshandlers.MouseInputsHandler;
-import userinterface.graphichandler.graphicobject.Object3D;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
-import javafx.scene.SubScene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -27,11 +9,25 @@ import content.tool.Forceps;
 import content.tool.Scalpel;
 import content.tool.Tool;
 import content.tool.VacuumCleaner;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
+import javafx.scene.SubScene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
+import userinterface.graphichandler.Axis;
+import userinterface.graphichandler.View;
+import userinterface.graphichandler.graphicobject.Object3D;
+import userinterface.guihandler.WindowHandler;
+import userinterface.userinputshandlers.KeyboardInputsHandler;
+import userinterface.userinputshandlers.MouseInputsHandler;
 
 /**
  * @author Michele Franceschetti
  * @author Manuel Gallina
- * 
  */
 
 public class Main extends Application 
@@ -42,7 +38,7 @@ public class Main extends Application
 	public static final Logger LOG = Logger.getLogger(Main.class.getName());
 	
 	/*
-     * The list of tools available (can be improved).
+     * The list of tools available.
      */
     private static final ArrayList<Tool> TOOL_LIST = new ArrayList<>(Arrays.asList(
     		new Forceps("Forcipe"), 

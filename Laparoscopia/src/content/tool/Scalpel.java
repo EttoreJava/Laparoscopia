@@ -2,13 +2,27 @@ package content.tool;
 
 import java.net.URL;
 
+import javafx.geometry.Point3D;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Translate;
+
 /**
  * @author Manuel Gallina
+ * @author Ettore Gorni
  */
 public class Scalpel extends Tool
 {	
 	private static final double SCALE = 2.0;
 	private static final String ACTION = "Cutting";
+	
+	private static final double RADIUS=1.5;
+	private static final double OFFSET_X=18.0;
+	private static final double OFFSET_Y=0.7;
+	private static final double OFFSET_Z=6.5;
+	
+	private Sphere[] model = new Sphere[28];
 	/*
 	 * The file path is relative to the bin folder.
 	 */
@@ -34,6 +48,57 @@ public class Scalpel extends Tool
 		this.getParent().setPosition(-5.0, 0.0, -5.9);
 		
 		this.getParent().getChildren().add(this.getShape());
+		
+		final PhongMaterial blackMaterial = new PhongMaterial();
+	        blackMaterial.setDiffuseColor(Color.BLACK);
+	        blackMaterial.setSpecularColor(Color.BLACK);
+		
+		for(int i=0; i<model.length; i++) {
+			model[i] = new Sphere(RADIUS);
+			model[i].setMaterial(blackMaterial);
+			//model[i].setVisible(false);
+		}
+	}
+	
+	/**
+	 * @param point which we want to know if is inside of the model
+	 * @return true if the point is inside
+	 * 
+	 * -13, 0.7, 0.6 are parameter fount thought some experiments, I don't know why we need them
+	 */
+	public boolean inModel(Point3D point) 
+	{
+		for(int i=0; i<model.length; i++)
+		{
+			Point3D center = new Point3D(model[i].getTranslateX() -13,
+					model[i].getTranslateY() + 0.7,model[i].getTranslateZ() - 0.6);
+			if(point.distance(model[i].localToScene(center))<RADIUS)
+				return true;
+			//System.out.println(point.distance(model[i].localToScene(center)));
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * @return spheres model of Scalpel
+	 */
+	public Sphere[] getModel()
+	{
+		Translate origine = this.getParent().getPosition();
+		model[0].setTranslateX(origine.getX() + OFFSET_X);
+		model[0].setTranslateY(origine.getY() - OFFSET_Y);
+		model[0].setTranslateZ(origine.getZ() + OFFSET_Z);
+		
+		for(int i=1; i<model.length; i++) 
+		{
+		model[i].setTranslateX(model[i-1].getTranslateX() + RADIUS);
+		model[i].setTranslateY(origine.getY() - OFFSET_Y);
+		model[i].setTranslateZ(origine.getZ() + OFFSET_Z);
+		}
+		
+		return model;
 	}
 	
 	@Override

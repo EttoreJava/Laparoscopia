@@ -1,0 +1,74 @@
+
+.label
+{
+	-fx-font-family: verdana;
+	-fx-text-fill: lightgray;
+	-fx-background-color: none;
+}
+
+.button{
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 0.5;
+    -fx-padding: 3 30 3 30;
+    -fx-text-fill: black;
+}
+
+
+.combo-box-base
+{
+	-fx-background-radius: 0.5;
+    -fx-background-insets: 5 0 5 0;
+    -fx-padding: 2;
+}
+
+.separator .line
+{
+	-fx-border-color: black;
+	-fx-border-width: 0.5;
+}
+
+#lateralWindow
+{	
+	-fx-alignment: top-center;
+	-fx-border-color: black;
+	-fx-background-color: rgb(69,69,69);
+}
+
+#infoBox
+{
+	-fx-alignment: center-left;
+	-fx-padding: 10 10 10 10;
+}
+
+#infoBoxGrid
+{
+	-fx-border-color: black;
+	-fx-border-width: 1.0;
+	
+    -fx-background-radius: 0.5;
+    -fx-background-insets: 0.0 5.0 0.0 5.0;
+    -fx-padding: 5;
+}
+
+#toolSelection
+{
+	-fx-background-radius: 0.5;
+    -fx-background-insets: 0.0 5.0 0.0 5.0;
+    -fx-padding: 5 10 10 10;
+}
+
+#toolSelectionGrid
+{
+	-fx-border-color: black;
+	-fx-border-width: 1.0;
+	
+    -fx-background-radius: 0.5;
+    -fx-background-insets: 0.0 5.0 0.0 5.0;
+    -fx-padding: 5;
+}
+
+#tool
+{
+	-fx-pref-width: 125.0;
+	-fx-pref-height: 8.0;
+}

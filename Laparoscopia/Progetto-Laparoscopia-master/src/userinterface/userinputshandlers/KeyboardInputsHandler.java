@@ -9,7 +9,6 @@ import userinterface.graphichandler.Axis;
 
 /**
  * @author Michele Franceschetti
- * @author Ettore Gorni
  */
 
 public class KeyboardInputsHandler
@@ -21,16 +20,10 @@ public class KeyboardInputsHandler
 	private int leftYAxis;
 	private int leftZAxis;
 	
-	private int leftRotation360;
-	private int leftRotation180;
-	
 	//Right arm
 	private int rightXAxis;
 	private int rightYAxis;
 	private int rightZAxis;
-	
-	private int rightRotation360;
-	private int rightRotation180;
 	
 	//Other commands
 	
@@ -43,38 +36,6 @@ public class KeyboardInputsHandler
 	public KeyboardInputsHandler()
 	{
 		reset();
-	}
-	
-	/**
-	 * @return right Wrist rotation in 360
-	 */
-	public int getRightRotation360()
-	{
-		return rightRotation360;
-	}
-	
-	/**
-	 * @return right Wrist rotation in 180
-	 */
-	public int getRightRotation180()
-	{
-		return rightRotation180;
-	}
-	
-	/**
-	 * @return left Wrist rotation in 360
-	 */
-	public int getLeftRotation360()
-	{
-		return leftRotation360;
-	}
-	
-	/**
-	 * @return left Wrist  rotation in 180
-	 */
-	public int getLeftRotation180()
-	{
-		return leftRotation180;
 	}
 	
 	/**
@@ -225,30 +186,6 @@ public class KeyboardInputsHandler
                     case O:
                     	rightZAxis = 1;
                     	break;
-                    case T:
-                    	leftRotation360 = -1;
-                    	break;
-                    case Y:
-                    	leftRotation360 = 1;
-                    	break;
-                    case H:
-                    	leftRotation180 = -1;
-                    	break;
-                    case G:
-                    	leftRotation180 = 1;
-                    	break;
-                    case V:
-                    	rightRotation360 = -1;
-                    	break;
-                    case B:
-                    	rightRotation360 = 1;
-                    	break;
-                    case N:
-                    	rightRotation180 = -1;
-                    	break;
-                    case M:
-                    	rightRotation180 = 1;
-                    	break;
                     default:
                     	event.consume();
                     	reset();
@@ -256,9 +193,7 @@ public class KeyboardInputsHandler
                 }
                 
                 leftArm.moveTarget(leftXAxis, leftYAxis, leftZAxis);
-                leftArm.moveHand(leftRotation180, leftRotation360);
                 rightArm.moveTarget(rightXAxis, rightYAxis, rightZAxis);
-                rightArm.moveHand(rightRotation180, rightRotation360);
                 
                 reset();
             }
@@ -274,18 +209,9 @@ public class KeyboardInputsHandler
 		leftYAxis = DEFAULT_VALUE;
 		leftZAxis = DEFAULT_VALUE;
 		
-		leftRotation360 = DEFAULT_VALUE;
-		leftRotation180 = DEFAULT_VALUE;
-
-		
 		rightXAxis = DEFAULT_VALUE;
 		rightYAxis = DEFAULT_VALUE;
 		rightZAxis = DEFAULT_VALUE;
-		
-		rightRotation360 = DEFAULT_VALUE;
-		rightRotation180 = DEFAULT_VALUE;
-		
-		
 		
 		escape = false;
 		reset = false;

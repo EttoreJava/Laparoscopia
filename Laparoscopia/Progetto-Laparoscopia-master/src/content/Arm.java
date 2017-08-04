@@ -3,9 +3,7 @@ package content;
 import java.util.ArrayList;
 import java.util.List;
 
-import content.tool.Scalpel;
 import content.tool.Tool;
-import javafx.geometry.Point3D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
@@ -24,8 +22,6 @@ public class Arm
 	private static final double KNEE_RADIUS = 5;
 	
 	private static final double MAX_DISTANCE_FROM_AXIS = 400.0;
-	
-	private static final double MAX_ROTATION_180 = 135.0;
 	
 	private static final Color ARM_COLOR = Color.BLUE;
 	private static final Color KNEE_COLOR = Color.CYAN;
@@ -104,27 +100,11 @@ public class Arm
 	
 	/**
 	 * Sets the selected tool on this arm.
-	 * Manage the Scalpel model if necessary
 	 * 
 	 * @param tool The selected tool on this arm.
 	 */
 	public void setSelectedTool(Tool tool) 
 	{
-		if(tool instanceof Scalpel) {
-			Sphere[]  scalpelModel= ((Scalpel) tool).getModel();
-			for(int i=0; i<scalpelModel.length; i++)
-			{
-				hand.getChildren().add(scalpelModel[i]);
-			}
-		}
-		else if(this.selectedTool instanceof Scalpel){
-			Sphere[]  scalpelModel= ((Scalpel) this.selectedTool).getModel();
-			for(int i=0; i<scalpelModel.length; i++)
-			{
-				hand.getChildren().remove(scalpelModel[i]);
-			}
-		}
-		
 		if(this.selectedTool != null)
 		{
 			hand.getChildren().remove(this.selectedTool.getParent());
@@ -201,12 +181,10 @@ public class Arm
 		
 		Cylinder foreArmMesh = new Cylinder(ARM_RADIUS, foreArmLenght);
 		Sphere foreArmKnee = new Sphere(KNEE_RADIUS);
-		Sphere foreArmWrist = new Sphere(KNEE_RADIUS);
 		
 		foreArmMesh.setMaterial(armColor);
 		foreArmKnee.setMaterial(kneeColor);
-		foreArmWrist.setMaterial(kneeColor);
-	
+		
 		if(!foreArm.getChildren().contains(foreArmMesh))
 		{
 			foreArm.getChildren().add(foreArmMesh);
@@ -222,16 +200,11 @@ public class Arm
 		foreArmMesh.setTranslateY(upperArm.getPosition().getY());
 		foreArmMesh.setTranslateZ(upperArm.getPosition().getZ());
 		
-		foreArmWrist.setTranslateX(upperArm.getPosition().getX() + (double)foreArmLenght);
-		foreArmWrist.setTranslateY(upperArm.getPosition().getY());
-		foreArmWrist.setTranslateZ(upperArm.getPosition().getZ());
-		foreArm.getChildren().add(foreArmWrist);
-		
-		//Tool
-		
 		hand.setPosition(upperArm.getPosition().getX() + (double)foreArmLenght, upperArm.getPosition().getY(), upperArm.getPosition().getZ());
 		
 		foreArm.getChildren().add(hand);
+		
+		//Tool
 		
 		if(this.selectedTool != null)
 		{
@@ -300,7 +273,7 @@ public class Arm
 	 	
 	 	double foreAngle = Math.acos(1 - height * height / (2 * foreArmLenght * foreArmLenght)) * Object3D.RAD_TO_DEG;
 	 	
-	 	foreArm.getRotation().setY(foreAngle); 	
+	 	foreArm.getRotation().setY(foreAngle);
 	}
 	
 	/**
@@ -336,19 +309,4 @@ public class Arm
 		
 		setArm();
 	}
-	
-	/**
-	 * Moves the hand position.
-	 * @author Ettore Gorni
-	 * 
-	 * @param delta180 The rotation on 180 of wrist.
-	 * @param delta360 The rotation on 360 of wrist.
-	 */
-	public void moveHand(double delta180, double delta360)
-	{
-		if(hand.getRotation().getZ() + delta180 > MAX_ROTATION_180 || 
-				hand.getRotation().getZ() + delta180 < (-MAX_ROTATION_180)) delta180 = 0;
-		hand.setRotation(hand.getRotation().getX() + delta360, 0, hand.getRotation().getZ() + delta180);
-	}
-
 }
