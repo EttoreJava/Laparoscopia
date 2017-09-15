@@ -93,6 +93,7 @@ public class Main extends Application
 		    root3D.getChildren().add(world);
 		    		    		    
 	        world.getChildren().addAll(axisMesh.getParent(), Simulation.PATIENT.getParent());
+	        
 	        world.getChildren().addAll(Simulation.TISSUE.getParent());
 	        scene3D.setCamera(camera.getCamera());
 			scene3D.setFill(Paint.valueOf("lightgray"));      

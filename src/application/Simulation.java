@@ -41,7 +41,6 @@ public final class Simulation
      */
     public static final Tissue TISSUE = new Tissue(
     		new String ("prova"), new String ("Tumore")); 
-    
     /**
      *  The cut.
      */

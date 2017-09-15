@@ -22,14 +22,16 @@ public class Patient
 	private static final Color DIFFUSE_COLOR = Color.DARKRED;
 	private static final Color SPECULAR_COLOR = Color.LIGHTPINK;
 	
-	public static final int X_VALUE = 40;
-	public static final int Y_VALUE = 20;
-	public static final int Z_VALUE = 20;
+	public static final int X_VALUE = 200;
+	public static final int Y_VALUE = 100;
+	public static final int Z_VALUE = 100;
 	
-	public static final PhongMaterial PATIENT_COLOR = new PhongMaterial(Color.ANTIQUEWHITE);
+	public static final double RADIUS = 1.5;
 	
-	private static final int X_OFFSET = 80;
-	private static final int Y_OFFSET = 100;
+	public static final PhongMaterial PATIENT_COLOR = new PhongMaterial(Color.HOTPINK);
+	
+	public static final int X_OFFSET = 80;
+	public static final int Y_OFFSET = 100;
 
 	
 	private PatientInformation[] infos;
@@ -210,13 +212,17 @@ public class Patient
 	    for (int i=0; i<X_VALUE; i++){
 			for (int j=0; j<Y_VALUE; j++){
 				for (int k=0; k<Z_VALUE; k++){
+					double equazione= (Math.pow(i-40, 2.0) + 2*Math.pow(j-20, 2.0)+ 2*Math.pow(k-20, 2.0));
+					if(  equazione < 800) //800	
+					{
+						patientModel[i][j][k] = new Sphere(RADIUS);
+						patientModel[i][j][k].setMaterial(PATIENT_COLOR);
+						patientModel[i][j][k].setTranslateX((i*2 - X_OFFSET));
+						patientModel[i][j][k].setTranslateY((j*2 + Y_OFFSET));
+						patientModel[i][j][k].setTranslateZ(k*2);
+						parent.getChildren().add(patientModel[i][j][k]);
+					}
 
-					patientModel[i][j][k] = new Sphere(2);
-					patientModel[i][j][k].setMaterial(PATIENT_COLOR);
-					patientModel[i][j][k].setTranslateX((i*4 - X_OFFSET));
-					patientModel[i][j][k].setTranslateY((j*4 + Y_OFFSET));
-					patientModel[i][j][k].setTranslateZ(k*4);
-					parent.getChildren().add(patientModel[i][j][k]);
 				}
 			}
 		}

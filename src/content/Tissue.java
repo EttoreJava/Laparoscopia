@@ -45,15 +45,23 @@ public class Tissue
 		
 		Simulation.PATIENT.getModel();
 		
-	    for (int i=START_X_VALUE; i<X_VALUE; i++){
-			for (int j=START_Y_VALUE; j<Y_VALUE; j++){
-				for (int k=START_Z_VALUE; k<Z_VALUE; k++){
-					
-					
-					Simulation.PATIENT.getParent().getChildren().remove(Simulation.PATIENT.getModel()[i][j][k]);
-					Simulation.PATIENT.getModel()[i][j][k].setMaterial(new PhongMaterial(Color.YELLOW));
-					parent.getChildren().addAll(Simulation.PATIENT.getModel()[i][j][k]);
-					
+	    for (int i=0; i<X_VALUE; i++){
+			for (int j=0; j<Y_VALUE; j++){
+				for (int k=0; k<Z_VALUE; k++){
+						double equazione = (Math.pow(i-65, 2.0) + Math.pow(j-20, 2.0)+ Math.pow(k-25, 2.0));
+						if( equazione < 30)	
+						{
+							if(Simulation.PATIENT.getModel()[i][j][k] == null)	{
+								Simulation.PATIENT.getModel()[i][j][k] = new Sphere(Simulation.PATIENT.RADIUS);
+								Simulation.PATIENT.getModel()[i][j][k].setTranslateX((i*2 - Simulation.PATIENT.X_OFFSET));
+								Simulation.PATIENT.getModel()[i][j][k].setTranslateY((j*2 + Simulation.PATIENT.Y_OFFSET));
+								Simulation.PATIENT.getModel()[i][j][k].setTranslateZ(k*2);
+							}
+								
+							Simulation.PATIENT.getParent().getChildren().remove(Simulation.PATIENT.getModel()[i][j][k]);
+							Simulation.PATIENT.getModel()[i][j][k].setMaterial(new PhongMaterial(Color.BLACK));
+							parent.getChildren().addAll(Simulation.PATIENT.getModel()[i][j][k]);
+					}
 				}
 			}
 		}

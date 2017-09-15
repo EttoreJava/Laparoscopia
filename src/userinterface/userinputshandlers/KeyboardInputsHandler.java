@@ -277,8 +277,7 @@ public class KeyboardInputsHandler
                 leftArm.moveTarget(leftXAxis, leftYAxis, leftZAxis);
                 leftArm.moveHand(leftRotation180, leftRotation360);
                 rightArm.moveTarget(rightXAxis, rightYAxis, rightZAxis);
-                rightArm.moveHand(rightRotation180, rightRotation360);
-                               
+                rightArm.moveHand(rightRotation180, rightRotation360);         
                 toolManager(leftArm, rightArm, patient, tissue);
                 window.getChildren().add(4,WindowHandler.percentage(patientCounter, tumorCounter));
                 window.getChildren().remove(5);
@@ -293,15 +292,18 @@ public class KeyboardInputsHandler
 	 */
 	private void toolManager (Arm leftArm, Arm rightArm, Patient patient, Tissue tissue){
         if(rightArm.getSelectedTool() instanceof Scalpel) {
-            for (int i=0; i<40; i++){
-            	for (int j=0; j<20; j++){
-            		for (int k=0; k<20; k++){
-            			if (((Scalpel)rightArm.getSelectedTool()).inModel(patient.getModel()[i][j][k])) {
-            				if (patient.getModel()[i][j][k].isVisible()){
-            				if (patient.getModel()[i][j][k].getMaterial().equals(patient.getModel()[0][0][0].getMaterial())) patientCounter++;
-            				else tumorCounter++;
-            				}
-            				patient.getModel()[i][j][k].setVisible(false);
+            for (int i=0; i<patient.X_VALUE; i++){
+            	for (int j=0; j<patient.Y_VALUE; j++){
+            		for (int k=0; k<patient.Z_VALUE; k++){
+            			if (!(patient.getModel()[i][j][k] == null)) {
+                			if (((Scalpel)rightArm.getSelectedTool()).inModel(patient.getModel()[i][j][k])) {
+                				System.out.println("dio caro");
+                				if (patient.getModel()[i][j][k].isVisible()){
+                					if (patient.getModel()[i][j][k].getMaterial().equals(patient.PATIENT_COLOR)) patientCounter++;
+                					else tumorCounter++;
+                				}
+                				patient.getModel()[i][j][k].setVisible(false);
+                			}
             			}
             		}
             	}
@@ -321,16 +323,18 @@ public class KeyboardInputsHandler
 
 
         if(leftArm.getSelectedTool() instanceof Scalpel) {
-            for (int i=0; i<40; i++){
-            	for (int j=0; j<20; j++){
-            		for (int k=0; k<20; k++){
-            			if (((Scalpel)leftArm.getSelectedTool()).inModel(patient.getModel()[i][j][k])) {
-            				if (patient.getModel()[i][j][k].isVisible()){
-                				if (patient.getModel()[i][j][k].getMaterial().equals(patient.getModel()[0][0][0].getMaterial())) patientCounter++;
-                				else tumorCounter++;
+            for (int i=0; i<patient.X_VALUE; i++){
+            	for (int j=0; j<patient.Y_VALUE; j++){
+            		for (int k=0; k<patient.Z_VALUE; k++){
+            			if (!(patient.getModel()[i][j][k] == null)) {
+                			if (((Scalpel)leftArm.getSelectedTool()).inModel(patient.getModel()[i][j][k])) {
+                				if (patient.getModel()[i][j][k].isVisible()){
+                    				if (patient.getModel()[i][j][k].getMaterial().equals(patient.PATIENT_COLOR)) patientCounter++;
+                    				else tumorCounter++;
+                    				}
+                    				patient.getModel()[i][j][k].setVisible(false);
                 				}
-                				patient.getModel()[i][j][k].setVisible(false);
-            			}
+                			}
             			}
             	}
             }
