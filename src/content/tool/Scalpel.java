@@ -62,14 +62,6 @@ public class Scalpel extends Tool
 		}
 	}
 	
-	public Sphere getPosition(){
-		Translate origine = this.getParent().getPosition();
-		model[0].setTranslateX(origine.getX() + OFFSET_X);
-		model[0].setTranslateY(origine.getY() - OFFSET_Y);
-		model[0].setTranslateZ(origine.getZ() + OFFSET_Z);
-		return model[0];
-	}
-	
 	/**
 	 * @param point which we want to know if is inside of the model
 	 * @return true if the point is inside

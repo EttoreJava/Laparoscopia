@@ -105,7 +105,7 @@ public class Arm
 	/**
 	 * Sets the selected tool on this arm.
 	 * Manage the Scalpel model if necessary
-	 * 
+	 * @author Ettore Gorni 
 	 * @param tool The selected tool on this arm.
 	 */
 	public void setSelectedTool(Tool tool) 

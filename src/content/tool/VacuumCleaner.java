@@ -42,6 +42,11 @@ public class VacuumCleaner extends Tool
 		this.getParent().getChildren().add(this.getShape());
 	}
 	
+	/**
+	 * @author Ettore Gorni
+	 * @param sphere
+	 * @return true if the vacuum cleaner is close to the sphere
+	 */
 	public boolean closeToModel(Sphere sphere) 
 	{
 		Point3D sphereCenter= new Point3D(sphere.getTranslateX(),sphere.getTranslateY(),sphere.getTranslateZ());

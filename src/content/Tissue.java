@@ -7,10 +7,8 @@ import javafx.scene.shape.Sphere;
 import userinterface.graphichandler.graphicobject.Object3D;
 
 /**
- * This class isn't been used yet.
  * 
- * @author Manuel Gallina
- * @author Michele Franceschetti
+ * @author Ettore Gorni
  */
 //Not yet implemented
 public class Tissue 
@@ -30,6 +28,7 @@ public class Tissue
 	public static final int START_Y_VALUE = 10;  //10
 	public static final int START_Z_VALUE = 10;  //10
 	
+	public static final PhongMaterial TISSUE_MATERIAL = new PhongMaterial(Color.BLACK);
 	
 	/**
 	 * Constructor.
@@ -59,7 +58,7 @@ public class Tissue
 							}
 								
 							Simulation.PATIENT.getParent().getChildren().remove(Simulation.PATIENT.getModel()[i][j][k]);
-							Simulation.PATIENT.getModel()[i][j][k].setMaterial(new PhongMaterial(Color.BLACK));
+							Simulation.PATIENT.getModel()[i][j][k].setMaterial(TISSUE_MATERIAL);
 							parent.getChildren().addAll(Simulation.PATIENT.getModel()[i][j][k]);
 					}
 				}
@@ -113,30 +112,34 @@ public class Tissue
 		this.type = type;
 	}
 	
+	/**
+	 * @author Ettore Gorni
+	 * @return true if the tissue is complete separated from the patient
+	 */
 	public boolean isSeparated() {
 		Sphere[][][] model = Simulation.PATIENT.getModel();
-		for (int i=START_X_VALUE; i<X_VALUE; i++){
-			for (int j=START_Y_VALUE; j<Y_VALUE; j++){
-				for (int k=START_Z_VALUE; k<Z_VALUE; k++){
-					if(model[i][j][k].isVisible()) {
-						if(model[i-1][j][k].isVisible() && i>0 && 
+		for (int i=0; i<X_VALUE; i++){
+			for (int j=0; j<Y_VALUE; j++){
+				for (int k=0; k<Z_VALUE; k++){
+					if(model[i][j][k]!=null && model[i][j][k].getMaterial() == TISSUE_MATERIAL &&  model[i][j][k].isVisible()) {
+						if(model[i-1][j][k]!=null && model[i-1][j][k].isVisible() && i>0 && 
 								model[i-1][j][k].getMaterial() == Simulation.PATIENT.PATIENT_COLOR)
 							return false;
-						if(i+1<Simulation.PATIENT.X_VALUE && model[i+1][j][k].isVisible() &&  
+						if(i+1<Simulation.PATIENT.X_VALUE && model[i+1][j][k]!=null && model[i+1][j][k].isVisible() &&  
 								model[i+1][j][k].getMaterial() == Simulation.PATIENT.PATIENT_COLOR)
 							return false;					
 						
-						if(model[i][j-1][k].isVisible() && j>0 && 
+						if(model[i][j-1][k]!=null && model[i][j-1][k].isVisible() && j>0 && 
 								model[i][j-1][k].getMaterial() == Simulation.PATIENT.PATIENT_COLOR)
 							return false;
-						if(j+1<Simulation.PATIENT.Y_VALUE && model[i][j+1][k].isVisible() && 
+						if(j+1<Simulation.PATIENT.Y_VALUE && model[i][j+1][k]!=null && model[i][j+1][k].isVisible() && 
 								model[i][j+1][k].getMaterial() == Simulation.PATIENT.PATIENT_COLOR)
 							return false;
 
-						if(model[i][j][k-1].isVisible() && k>0 && 
+						if(model[i][j][k-1]!=null && model[i][j][k-1].isVisible() && k>0 && 
 								model[i][j][k-1].getMaterial() == Simulation.PATIENT.PATIENT_COLOR)
 							return false;
-						if(k+1<Simulation.PATIENT.Z_VALUE && model[i][j][k+1].isVisible() && 
+						if(k+1<Simulation.PATIENT.Z_VALUE && model[i][j][k+1]!=null && model[i][j][k+1].isVisible() && 
 								model[i][j][k+1].getMaterial() == Simulation.PATIENT.PATIENT_COLOR)
 							return false;
 					}

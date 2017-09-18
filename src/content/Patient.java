@@ -1,7 +1,13 @@
 package content;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
 
+import application.Simulation;
+import javafx.geometry.Point3D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
@@ -33,7 +39,6 @@ public class Patient
 	public static final int X_OFFSET = 80;
 	public static final int Y_OFFSET = 100;
 
-	
 	private PatientInformation[] infos;
 	
 	private Object3D parent = new Object3D();
@@ -124,7 +129,7 @@ public class Patient
 		this.infos[index].data = data;
 	}
 	
-	/*
+	/**
 	 * Initializes the patient's attributes.
 	 * 
 	 * @param patientAttributes The patient attributes to set.
@@ -174,6 +179,87 @@ public class Patient
 		return patientModel;
 	}
 	
+	/**
+	 * @author Ettore Gorni
+	 * @return ArrayList with different pieces of patient stored in a set
+	 * 
+	 * NB: L'algoritmo utilizza un array booleano ausiliario per sapere quali elementi ono gia stati analizzati
+	 * esso funziona osservando tutti gli elementi vicini e poi, quando questi ultimi sono stati ultimati, riparte
+	 * da dove era arrivato nel ciclo for per cercare nuovi gruppi
+	 */
+	public ArrayList<HashSet> getPieces(){
+		Sphere[][][] realModel = Simulation.PATIENT.getModel();
+		Sphere[][][] model = Arrays.copyOf(realModel, realModel.length);
+		ArrayList<HashSet> pieces = new <HashSet>ArrayList();
+		LinkedList<Sphere> queue = new LinkedList<Sphere>();
+		LinkedList<Point3D> coordinate = new LinkedList<Point3D>();
+			
+		boolean help[][][] = new boolean[X_VALUE][Y_VALUE][Z_VALUE];
+		int cnt = -1;
+		for (int i=0; i<X_VALUE; i++){
+			for (int j=0; j<Y_VALUE; j++){
+				for (int k=0; k<Z_VALUE; k++){
+					if(model[i][j][k]==null) help[i][j][k] = false;
+					else if(model[i][j][k].isVisible()) help[i][j][k] = true;
+					else help[i][j][k] = false;
+				}
+			}
+		}
+		for (int i=0; i<X_VALUE; i++){
+			for (int j=0; j<Y_VALUE; j++){
+				for (int k=0; k<Z_VALUE; k++){
+					if(help[i][j][k] == true) {
+						cnt++;
+						pieces.add(new <Sphere>HashSet());
+						if(model[i][j][k]!=null && model[i][j][k].isVisible()) {
+							queue.addLast(model[i][j][k]);
+							coordinate.addLast(new Point3D(i,j,k));
+							while(queue.size() != 0) {
+								Point3D point = coordinate.removeFirst();
+								i= (int)point.getX();
+								j= (int)point.getY();
+								k= (int)point.getZ();
+								if(help[i-1][j][k] == true  && i>0) {
+									queue.addLast(model[i-1][j][k]);
+									coordinate.addLast(new Point3D(i-1,j,k));
+									help[i-1][j][k]= false;
+								}
+								if(help[i+1][j][k] == true  && i+1<Simulation.PATIENT.X_VALUE) {
+									queue.addLast(model[i+1][j][k]);	
+									coordinate.addLast(new Point3D(i+1,j,k));
+									help[i+1][j][k]= false;
+								}										
+								if(help[i][j-1][k] == true && j>0) {
+									queue.addLast(model[i][j-1][k]);
+									coordinate.addLast(new Point3D(i,j-1,k));
+									help[i][j-1][k]= false;
+								}								
+								if(help[i][j+1][k] == true && j+1<Simulation.PATIENT.Y_VALUE) {
+									queue.addLast(model[i][j+1][k]);
+									coordinate.addLast(new Point3D(i,j+1,k));
+									help[i][j+1][k]= false;
+								}								
+								if(help[i][j][k-1] == true && k>0) {
+									queue.addLast(model[i][j][k-1]);
+									coordinate.addLast(new Point3D(i,j,k-1));
+									help[i][j][k-1]= false;
+								}								
+								if(help[i][j][k+1] == true && k+1<Simulation.PATIENT.Z_VALUE) {
+									queue.addLast(model[i][j][k+1]);
+									coordinate.addLast(new Point3D(i,j,k+1));
+									help[i][j][k+1]= false;
+								}		
+								pieces.get(cnt).add(queue.removeFirst());
+							}
+							//System.out.println(pieces.get(cnt).size());
+						}	
+					}						
+				}
+			}
+		}
+		return pieces;
+	}
+	
 	
 	/**
 	 * Sets the parent transform of the patient's mesh.
@@ -187,6 +273,7 @@ public class Patient
 	
 	//Methods
 	/**
+	 * @author Ettore Gorni
 	 * Creates the mesh for this patient and adds a default material.
 	 */
 	public void createMesh()
@@ -244,7 +331,7 @@ public class Patient
 		return description.toString();
 	}
 	
-	/*
+	/**
 	 * An inner class used to store the informations of the patient.
 	 * It's made up of a label and a data.
 	 */

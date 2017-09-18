@@ -2,6 +2,8 @@ package userinterface.userinputshandlers;
 
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import application.Simulation;
 import content.Arm;
@@ -288,67 +290,61 @@ public class KeyboardInputsHandler
     }
 	
 	/**
+	 * @author Ettore Gorni
+	 * This method manage that element that must be deleted by the vacuum cleaner
+	 */
+	private void vacuumCleanerManager(Patient patient, Arm arm) {
+    	ArrayList<HashSet> pieces = patient.getPieces();
+    	for(int h=0; h<pieces.size(); h++) {
+    		if(pieces.get(h).size()<50 && CleanerCloseTo((VacuumCleaner)arm.getSelectedTool(), pieces.get(h))) {
+    			Iterator<Sphere> it=pieces.get(h).iterator();
+    		    while(it.hasNext()) {
+    				it.next().setVisible(false);
+    		    }
+            }
+        }
+	}
+	
+	/**
+	 * @author Ettore Gorni
+	 * This method manage that element that must be deleted by the vacuum cleaner
+	 */
+	private void scalpelManager(Patient patient, Arm arm) {
+		for (int i=0; i<patient.X_VALUE; i++){
+        	for (int j=0; j<patient.Y_VALUE; j++){
+        		for (int k=0; k<patient.Z_VALUE; k++){
+        			if (!(patient.getModel()[i][j][k] == null)) {
+            			if (((Scalpel)arm.getSelectedTool()).inModel(patient.getModel()[i][j][k])) {
+            				if (patient.getModel()[i][j][k].isVisible()){
+            					if (patient.getModel()[i][j][k].getMaterial().equals(patient.PATIENT_COLOR)) patientCounter++;
+            					else tumorCounter++;
+            				}
+            				patient.getModel()[i][j][k].setVisible(false);
+            			}
+        			}
+        		}
+        	}
+		}
+	}
+	
+	/**
+	 * @author Ettore Gorni 
 	 * This method manage the tools, now are implemented for Scalpel and vacuumCleaner
 	 */
 	private void toolManager (Arm leftArm, Arm rightArm, Patient patient, Tissue tissue){
+		// RIGHT ARM
         if(rightArm.getSelectedTool() instanceof Scalpel) {
-            for (int i=0; i<patient.X_VALUE; i++){
-            	for (int j=0; j<patient.Y_VALUE; j++){
-            		for (int k=0; k<patient.Z_VALUE; k++){
-            			if (!(patient.getModel()[i][j][k] == null)) {
-                			if (((Scalpel)rightArm.getSelectedTool()).inModel(patient.getModel()[i][j][k])) {
-                				System.out.println("dio caro");
-                				if (patient.getModel()[i][j][k].isVisible()){
-                					if (patient.getModel()[i][j][k].getMaterial().equals(patient.PATIENT_COLOR)) patientCounter++;
-                					else tumorCounter++;
-                				}
-                				patient.getModel()[i][j][k].setVisible(false);
-                			}
-            			}
-            		}
-            	}
-            }
+        	scalpelManager(patient, rightArm);
         }
         else if(rightArm.getSelectedTool() instanceof VacuumCleaner) {
-        	if(tissue.isSeparated() && CleanerCloseTo((VacuumCleaner)rightArm.getSelectedTool(), patient) ) {
-        		for (int i=Simulation.TISSUE.START_X_VALUE; i<Simulation.TISSUE.X_VALUE; i++)	{
-        			for (int j=Simulation.TISSUE.START_Y_VALUE; j<Simulation.TISSUE.Y_VALUE; j++)	{
-        				for (int k=Simulation.TISSUE.START_Z_VALUE; k<Simulation.TISSUE.Z_VALUE; k++)	{
-                			patient.getModel()[i][j][k].setVisible(false);
-                		}
-                	}
-                }
-        	}
+        	vacuumCleanerManager(patient, rightArm);
         }
-
-
+		// LEFT ARM
         if(leftArm.getSelectedTool() instanceof Scalpel) {
-            for (int i=0; i<patient.X_VALUE; i++){
-            	for (int j=0; j<patient.Y_VALUE; j++){
-            		for (int k=0; k<patient.Z_VALUE; k++){
-            			if (!(patient.getModel()[i][j][k] == null)) {
-                			if (((Scalpel)leftArm.getSelectedTool()).inModel(patient.getModel()[i][j][k])) {
-                				if (patient.getModel()[i][j][k].isVisible()){
-                    				if (patient.getModel()[i][j][k].getMaterial().equals(patient.PATIENT_COLOR)) patientCounter++;
-                    				else tumorCounter++;
-                    				}
-                    				patient.getModel()[i][j][k].setVisible(false);
-                				}
-                			}
-            			}
-            	}
-            }
+        	scalpelManager(patient, leftArm);
         }
         else if(leftArm.getSelectedTool() instanceof VacuumCleaner) {
-        	if(tissue.isSeparated() && CleanerCloseTo((VacuumCleaner)leftArm.getSelectedTool(), patient)) {
-        		for (int i=Simulation.TISSUE.START_X_VALUE; i<Simulation.TISSUE.X_VALUE; i++)	{
-        			for (int j=Simulation.TISSUE.START_Y_VALUE; j<Simulation.TISSUE.Y_VALUE; j++)	{
-        				for (int k=Simulation.TISSUE.START_Z_VALUE; k<Simulation.TISSUE.Z_VALUE; k++)	{
-                			patient.getModel()[i][j][k].setVisible(false);
-                		}
-                	}
-                }
-        	}
+        	vacuumCleanerManager(patient, leftArm);
         }
 	}
 	
@@ -357,19 +353,17 @@ public class KeyboardInputsHandler
 	 * @param patient
 	 * @return true if the cleaner is close to one of the model spheres
 	 */
-	private boolean CleanerCloseTo(VacuumCleaner cleaner, Patient patient) {
-		for (int i=Simulation.TISSUE.START_X_VALUE; i<Simulation.TISSUE.X_VALUE; i++)	{
-			for (int j=Simulation.TISSUE.START_Y_VALUE; j<Simulation.TISSUE.Y_VALUE; j++)	{
-				for (int k=Simulation.TISSUE.START_Z_VALUE; k<Simulation.TISSUE.Z_VALUE; k++)	{
-						if((cleaner.closeToModel(patient.getModel()[i][j][k])))
-							return true;
-				}
-			}
-		}
+	private boolean CleanerCloseTo(VacuumCleaner cleaner, HashSet<Sphere> piece) {
+	    Iterator<Sphere> it=piece.iterator();
+
+	    while(it.hasNext()) {
+			if((cleaner.closeToModel(it.next())))
+				return true;
+	    }
 		return false;
 	}
 	
-	/*
+	/**
 	 * Resets all the attributes to the DEFAULT_VALUE.
 	 */
 	private void reset()

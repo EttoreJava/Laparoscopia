@@ -39,6 +39,7 @@ import content.tool.VacuumCleaner;
 /**
  * @author Michele Franceschetti
  * @author Manuel Gallina
+ * @author Ettore Gorni
  * 
  */
 
