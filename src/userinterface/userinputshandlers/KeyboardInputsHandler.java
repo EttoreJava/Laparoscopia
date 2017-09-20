@@ -29,7 +29,6 @@ import userinterface.guihandler.WindowHandler;
 /**
  * @author Michele Franceschetti
  * @author Ettore Gorni
- * @author Luca Benedetti
  */
 
 public class KeyboardInputsHandler
@@ -207,7 +206,6 @@ public class KeyboardInputsHandler
                         break;
                     case R:
                     	reset = true;
-                    	fullReset(leftArm, rightArm, patient);
                         break;
                     case X:
                     	axis.switchVisibility();
@@ -277,30 +275,19 @@ public class KeyboardInputsHandler
                     	reset();
                     	break;
                 }
+
                 leftArm.moveTarget(leftXAxis, leftYAxis, leftZAxis);
                 leftArm.moveHand(leftRotation180, leftRotation360);
                 rightArm.moveTarget(rightXAxis, rightYAxis, rightZAxis);
                 rightArm.moveHand(rightRotation180, rightRotation360);         
                 toolManager(leftArm, rightArm, patient, tissue);
-       
                 window.getChildren().add(4,WindowHandler.percentage(patientCounter, tumorCounter));
                 window.getChildren().remove(5);
                 
                 reset();
-                
-                //patientCounter = removed(patient, tissue)[0];
-                //tumorCounter = removed(patient, tissue)[1];
             }
         });
     }
-	
-	private void fullReset(Arm leftArm, Arm rightArm, Patient patient) {
-		rightArm.reset();
-		leftArm.reset();
-		patient.reset();
-		patientCounter = 0;
-		tumorCounter = 0;
-	}
 	
 	/**
 	 * @author Ettore Gorni
@@ -376,23 +363,6 @@ public class KeyboardInputsHandler
 		return false;
 	}
 	
-	private int[] removed(Patient patient, Tissue tissue){
-		int[] removed = {0};
-		int pCounter = 0, tCounter = 0;
-		for (int i=0; i<patient.X_VALUE; i++){
-			for (int j=0; j<patient.Y_VALUE; j++){
-				for (int k=0; k<patient.Z_VALUE; k++){
-					if((patient.getModel()[i][j][k].getMaterial() == tissue.TISSUE_MATERIAL) && !(patient.getModel()[i][j][k].isVisible())) tCounter++;
-					if((patient.getModel()[i][j][k].getMaterial() == patient.PATIENT_COLOR) && !(patient.getModel()[i][j][k].isVisible())) pCounter++;
-				}
-			}
-		}
-		removed[0] = pCounter;
-		removed[1] = tCounter;
-		return removed;
-    }
-	
-	
 	/**
 	 * Resets all the attributes to the DEFAULT_VALUE.
 	 */
@@ -418,5 +388,4 @@ public class KeyboardInputsHandler
 		escape = false;
 		reset = false;
 	}
-	
 }

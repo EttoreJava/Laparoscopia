@@ -1,8 +1,5 @@
 package userinterface.guihandler;
 
-import java.text.NumberFormat;
-
-import application.Simulation;
 import content.Arm;
 import content.Patient;
 import content.Tissue;
@@ -24,7 +21,6 @@ import javafx.scene.layout.VBox;
 
 /**
  * @author Manuel Gallina
- * @author Luca Benedetti
  */
 public final class WindowHandler 
 {
@@ -67,13 +63,10 @@ public final class WindowHandler
 	private static final double TOOL_GRID_HGAP = INFO_BOX_WIDTH_RESOLUTION / 4 - 10;
 	private static final double TOOL_GRID_VGAP = 0;
 	
-	private static final double COMMANDS_GRID_HGAP = 10;
-	private static final double COMMANDS_GRID_VGAP = 2;
-	
-	private static final double TISSUE_VOLUME = Simulation.TISSUE.getVolume();
+	private static final double TISSUE_VOLUME = Tissue.X_VALUE*Tissue.Y_VALUE*Tissue.Z_VALUE;
 	private static final double PATIENT_VOLUME = (Patient.X_VALUE*Patient.Y_VALUE*Patient.Z_VALUE)-TISSUE_VOLUME;
 	
-	/**
+	/*
 	 * A private constructor to override the default public one.
 	 * This is useful to prevent the instantiation of this class.
 	 */
@@ -116,23 +109,14 @@ public final class WindowHandler
 			separator2.setHalignment(HPos.CENTER);
 			separator2.setValignment(VPos.CENTER);
 			
-		VBox percentage = percentage(0,0);
-		
-		Separator separator3 = new Separator();	
-			separator3.setId("separator");
-			separator3.setOrientation(Orientation.HORIZONTAL);
-			separator3.setMaxWidth(SEPARATOR_MAX_WIDTH);
-			separator3.setHalignment(HPos.CENTER);
-			separator3.setValignment(VPos.CENTER);
-			
-		VBox commands = commands();	
+		VBox percentage = percentage(0,0);	
 				
-		lateralWindow.getChildren().addAll(infoBox, separator, toolSelection, separator2, percentage, separator3, commands);
+		lateralWindow.getChildren().addAll(infoBox, separator, toolSelection, separator2, percentage);
 		
 		return lateralWindow;
 	}
 	
-	/**
+	/*
 	 * This method creates the patient's info box.
 	 */
 	private static VBox infoBox(Patient patient)
@@ -163,7 +147,7 @@ public final class WindowHandler
 		return infoBox;
 	}
 
-	/**
+	/*
 	 * Creates the tool selection interface.
 	 */
 	private static VBox toolSelection(Arm leftArm, Arm rightArm) 
@@ -235,24 +219,17 @@ public final class WindowHandler
 		return toolSelection;
 	}
 	
-	/**
-	 * @author Luca Benedetti
-	 * create the progress' percentage window
-	 */
 	public static VBox percentage(int patient, int tumor){
 		VBox percentage = new VBox();
-		NumberFormat numForm = NumberFormat.getInstance();
-	     numForm.setMaximumFractionDigits(2);
-	     numForm.setMinimumFractionDigits(2);
 		
 		Label title = new Label("Percentuale completamento");
-		Label patientPercent = new Label("Organo rimosso "+numForm.format((patient/PATIENT_VOLUME)*100)+"%");
-		Label tumorPercent = new Label("Tumore rimosso "+numForm.format((tumor/TISSUE_VOLUME)*100)+"%");
+		Label patientPercent = new Label("Organo rimosso "+(patient/PATIENT_VOLUME)*100+"%");
+		Label tumorPercent = new Label("Tumore rimosso "+(tumor/TISSUE_VOLUME)*100+"%");
 		
 		GridPane grid = new GridPane();
 			grid.setId("infoBoxGrid");
-			grid.setHgap(10);
-			grid.setVgap(10);
+			grid.setHgap(INFO_BOX_GRID_HGAP);
+			grid.setVgap(INFO_BOX_GRID_VGAP);
 			
 		grid.add(patientPercent, 0, 0);
 		grid.add(tumorPercent, 0, 1);
@@ -261,67 +238,5 @@ public final class WindowHandler
 		
 		return percentage;
 		
-	}
-	
-	/**
-	 * @author Luca Benedetti
-	 * create the commands interface
-	 */
-	public static VBox commands(){
-		VBox commands = new VBox();
-		Label title = new Label("Comandi");
-		
-		GridPane grid = new GridPane();
-			grid.setId("infoBoxGrid");
-			grid.setHgap(COMMANDS_GRID_HGAP);
-			grid.setVgap(COMMANDS_GRID_VGAP);
-		
-		Label sx = new Label("Muovi a sinistra:");
-		Label dx = new Label("Muovi a destra:");
-		Label up = new Label("Alza:");
-		Label down = new Label("Abbassa:");
-		Label dig = new Label("Affonda:");
-		Label extract = new Label("Estrai:");
-		Label rotate = new Label("Ruota strumento:");
-		Label bend = new Label("Fletti strumento:");
-		Label reset = new Label("Reset:");
-		Label axis = new Label("Hide axis:");
-		
-		grid.add(new Label("Braccio:"),0,0);
-		grid.add(new Label("Destro"),1,0);
-		grid.add(new Label("Sinistro"), 2,0);
-		grid.add(sx,0,1);
-		grid.add(new Label("A"),1,1);
-		grid.add(new Label("J"),2,1);
-		grid.add(dx,0,2);
-		grid.add(new Label("D"),1,2);
-		grid.add(new Label("L"),2,2);
-		grid.add(up,0,3);
-		grid.add(new Label("E"),1,3);
-		grid.add(new Label("O"),2,3);
-		grid.add(down,0,4);
-		grid.add(new Label("Q"),1,4);
-		grid.add(new Label("U"),2,4);
-		grid.add(dig,0,5);
-		grid.add(new Label("W"),1,5);
-		grid.add(new Label("I"),2,5);
-		grid.add(extract,0,6);
-		grid.add(new Label("S"),1,6);
-		grid.add(new Label("K"),2,6);
-		grid.add(rotate,0,7);
-		grid.add(new Label("V-B"),1,7);
-		grid.add(new Label("T-Y"),2,7);
-		grid.add(bend,0,8);
-		grid.add(new Label("N-M"),1,8);
-		grid.add(new Label("G-H"),2,8);
-		
-		grid.add(reset,0,9);
-		grid.add(new Label("\tR"),1,9);
-		grid.add(axis,0,10);
-		grid.add(new Label("\tX"),1,10);
-				
-		commands.getChildren().addAll(title,grid);
-		
-	return commands;	
 	}
 }

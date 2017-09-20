@@ -41,9 +41,6 @@ public class Arm
 	private ArrayList<Tool> toolList = new ArrayList<>();
 	
 	private Translate target;
-	private double defaultTargetX;
-	private double defaultTargetY;
-	private double defaultTargetZ;
 	
 	/**
 	 * The constructor.
@@ -59,25 +56,10 @@ public class Arm
 		hand.reset();
 		
 		this.target = target;
-		defaultTargetX = target.getX();
-		defaultTargetY = target.getY();
-		defaultTargetZ = target.getZ();
 		this.upperArmLenght = upperArmLenght;
 		this.foreArmLenght = foreArmLenght;
 		
 		createArm();		
-	}
-	
-	/**
-	 * @author Ettore Gorni
-	 * this method reset all data about arms (position)
-	 */
-	public void reset() {
-		target.setX(defaultTargetX);
-		target.setY(defaultTargetY);
-		target.setZ(defaultTargetZ);
-		hand.setRotation(0, 0, 0);
-		setArm();
 	}
 	
 	/**
