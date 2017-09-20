@@ -73,6 +73,20 @@ public class Patient
 		createMesh();
 	}
 	
+	/**
+	 * @author Ettore Gorni
+	 * this method reset all the data about the patient (visibility)
+	 */
+	public void reset() {
+		for (int i=0; i<X_VALUE; i++){
+			for (int j=0; j<Y_VALUE; j++){
+				for (int k=0; k<Z_VALUE; k++){
+					if(patientModel[i][j][k]!=null) patientModel[i][j][k].setVisible(true);
+				}
+			}
+		}
+	}
+	
 	//Getters and setters
 	
 	/**
@@ -375,5 +389,4 @@ public class Patient
 			return description.toString();
 		}
 	}
- 
 }

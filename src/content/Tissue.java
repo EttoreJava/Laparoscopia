@@ -30,6 +30,8 @@ public class Tissue
 	
 	public static final PhongMaterial TISSUE_MATERIAL = new PhongMaterial(Color.BLACK);
 	
+	private int counter = 0;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -55,6 +57,7 @@ public class Tissue
 								Simulation.PATIENT.getModel()[i][j][k].setTranslateX((i*2 - Simulation.PATIENT.X_OFFSET));
 								Simulation.PATIENT.getModel()[i][j][k].setTranslateY((j*2 + Simulation.PATIENT.Y_OFFSET));
 								Simulation.PATIENT.getModel()[i][j][k].setTranslateZ(k*2);
+								counter++;
 							}
 								
 							Simulation.PATIENT.getParent().getChildren().remove(Simulation.PATIENT.getModel()[i][j][k]);
@@ -148,4 +151,12 @@ public class Tissue
 		}
 		return true;
 	}
+	
+	/**
+	 * 
+	 * @return the tissue's volume
+	 */
+	public int getVolume(){
+		return counter;
+	}	
 }
