@@ -83,20 +83,6 @@ public class Scalpel extends Tool
 
 	}
 	
-	public boolean inBox(Box box)
-	{
-		for(int i=0; i<model.length; i++)
-		{
-			Point3D center = new Point3D(model[i].getTranslateX(),
-					model[i].getTranslateY(),model[i].getTranslateZ() );
-			if ((center.getX()>box.getTranslateX() && center.getX()<box.getTranslateX()+box.getWidth()) &&
-					(center.getY()>box.getTranslateY() && center.getY()<box.getTranslateY()+box.getDepth()) &&
-					(center.getZ()>box.getTranslateZ() && center.getZ()<box.getTranslateZ()+box.getHeight()))
-				return true;
-	}
-		return false;
-	}
-	
 	/**
 	 * @return spheres model of Scalpel
 	 */

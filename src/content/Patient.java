@@ -28,16 +28,16 @@ public class Patient
 	private static final Color DIFFUSE_COLOR = Color.DARKRED;
 	private static final Color SPECULAR_COLOR = Color.LIGHTPINK;
 	
-	public static final int X_VALUE = 200;
-	public static final int Y_VALUE = 100;
-	public static final int Z_VALUE = 100;
+	public static final int X_VALUE = 46;//50
+	public static final int Y_VALUE = 25;//25
+	public static final int Z_VALUE = 30;
 	
-	public static final double RADIUS = 1.5;
+	public static final double RADIUS = 2;
 	
 	public static final PhongMaterial PATIENT_COLOR = new PhongMaterial(Color.HOTPINK);
 	
-	public static final int X_OFFSET = 80;
-	public static final int Y_OFFSET = 100;
+	public static final int X_OFFSET = 50;
+	public static final int Y_OFFSET = 140;
 
 	private PatientInformation[] infos;
 	
@@ -187,10 +187,10 @@ public class Patient
 	 * esso funziona osservando tutti gli elementi vicini e poi, quando questi ultimi sono stati ultimati, riparte
 	 * da dove era arrivato nel ciclo for per cercare nuovi gruppi
 	 */
-	public ArrayList<HashSet> getPieces(){
+	public ArrayList<HashSet<Sphere>> getPieces(){
 		Sphere[][][] realModel = Simulation.PATIENT.getModel();
 		Sphere[][][] model = Arrays.copyOf(realModel, realModel.length);
-		ArrayList<HashSet> pieces = new <HashSet>ArrayList();
+		ArrayList<HashSet<Sphere>> pieces = new <HashSet<Sphere>>ArrayList();
 		LinkedList<Sphere> queue = new LinkedList<Sphere>();
 		LinkedList<Point3D> coordinate = new LinkedList<Point3D>();
 			
@@ -224,7 +224,7 @@ public class Patient
 									coordinate.addLast(new Point3D(i-1,j,k));
 									help[i-1][j][k]= false;
 								}
-								if(help[i+1][j][k] == true  && i+1<Simulation.PATIENT.X_VALUE) {
+								if(help[i+1][j][k] == true  && i+1<X_VALUE) {
 									queue.addLast(model[i+1][j][k]);	
 									coordinate.addLast(new Point3D(i+1,j,k));
 									help[i+1][j][k]= false;
@@ -234,7 +234,7 @@ public class Patient
 									coordinate.addLast(new Point3D(i,j-1,k));
 									help[i][j-1][k]= false;
 								}								
-								if(help[i][j+1][k] == true && j+1<Simulation.PATIENT.Y_VALUE) {
+								if(help[i][j+1][k] == true && j-1<Y_VALUE) {
 									queue.addLast(model[i][j+1][k]);
 									coordinate.addLast(new Point3D(i,j+1,k));
 									help[i][j+1][k]= false;
@@ -244,7 +244,7 @@ public class Patient
 									coordinate.addLast(new Point3D(i,j,k-1));
 									help[i][j][k-1]= false;
 								}								
-								if(help[i][j][k+1] == true && k+1<Simulation.PATIENT.Z_VALUE) {
+								if(help[i][j][k+1] == true && k+1<Z_VALUE) {
 									queue.addLast(model[i][j][k+1]);
 									coordinate.addLast(new Point3D(i,j,k+1));
 									help[i][j][k+1]= false;
@@ -299,14 +299,14 @@ public class Patient
 	    for (int i=0; i<X_VALUE; i++){
 			for (int j=0; j<Y_VALUE; j++){
 				for (int k=0; k<Z_VALUE; k++){
-					double equazione= (Math.pow(i-40, 2.0) + 2*Math.pow(j-20, 2.0)+ 2*Math.pow(k-20, 2.0));
-					if(  equazione < 800) //800	
+					double equazione= (Math.pow(i-15, 2.0) + 2*Math.pow(j-10, 2.0)+ 2*Math.pow(k-10, 2.0));
+					if(  equazione < 200) //200
 					{
 						patientModel[i][j][k] = new Sphere(RADIUS);
 						patientModel[i][j][k].setMaterial(PATIENT_COLOR);
-						patientModel[i][j][k].setTranslateX((i*2 - X_OFFSET));
-						patientModel[i][j][k].setTranslateY((j*2 + Y_OFFSET));
-						patientModel[i][j][k].setTranslateZ(k*2);
+						patientModel[i][j][k].setTranslateX((i*3 - X_OFFSET));
+						patientModel[i][j][k].setTranslateY((j*3 + Y_OFFSET));
+						patientModel[i][j][k].setTranslateZ(k*3);
 						parent.getChildren().add(patientModel[i][j][k]);
 					}
 

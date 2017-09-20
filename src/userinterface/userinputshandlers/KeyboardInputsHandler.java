@@ -294,7 +294,7 @@ public class KeyboardInputsHandler
 	 * This method manage that element that must be deleted by the vacuum cleaner
 	 */
 	private void vacuumCleanerManager(Patient patient, Arm arm) {
-    	ArrayList<HashSet> pieces = patient.getPieces();
+    	ArrayList<HashSet<Sphere>> pieces = patient.getPieces();
     	for(int h=0; h<pieces.size(); h++) {
     		if(pieces.get(h).size()<50 && CleanerCloseTo((VacuumCleaner)arm.getSelectedTool(), pieces.get(h))) {
     			Iterator<Sphere> it=pieces.get(h).iterator();

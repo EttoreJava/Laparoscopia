@@ -47,8 +47,8 @@ public class Tissue
 	    for (int i=0; i<X_VALUE; i++){
 			for (int j=0; j<Y_VALUE; j++){
 				for (int k=0; k<Z_VALUE; k++){
-						double equazione = (Math.pow(i-65, 2.0) + Math.pow(j-20, 2.0)+ Math.pow(k-25, 2.0));
-						if( equazione < 30)	
+						double equazione = (Math.pow(i-40, 2.0) + Math.pow(j-10, 2.0)+ Math.pow(k-20, 2.0));
+						if( equazione < 25)	
 						{
 							if(Simulation.PATIENT.getModel()[i][j][k] == null)	{
 								Simulation.PATIENT.getModel()[i][j][k] = new Sphere(Simulation.PATIENT.RADIUS);

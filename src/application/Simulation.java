@@ -41,10 +41,6 @@ public final class Simulation
      */
     public static final Tissue TISSUE = new Tissue(
     		new String ("prova"), new String ("Tumore")); 
-    /**
-     *  The cut.
-     */
-    public static final Cut CUT = new Cut();
     
     /*
 	 * A private constructor to override the default public one.
