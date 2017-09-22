@@ -12,7 +12,7 @@ import javafx.scene.shape.TriangleMesh;
 
 /**
  * @author Ettore Gorni
- *
+ * This class has never been used because it slows down too much the processor 
  */
 public class Cut {
 

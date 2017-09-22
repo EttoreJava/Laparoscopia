@@ -29,6 +29,7 @@ import userinterface.guihandler.WindowHandler;
 /**
  * @author Michele Franceschetti
  * @author Ettore Gorni
+ * @author Luca Benedetti
  */
 
 public class KeyboardInputsHandler
@@ -206,6 +207,7 @@ public class KeyboardInputsHandler
                         break;
                     case R:
                     	reset = true;
+                    	fullReset(leftArm, rightArm, patient);
                         break;
                     case X:
                     	axis.switchVisibility();
@@ -275,12 +277,12 @@ public class KeyboardInputsHandler
                     	reset();
                     	break;
                 }
-
                 leftArm.moveTarget(leftXAxis, leftYAxis, leftZAxis);
                 leftArm.moveHand(leftRotation180, leftRotation360);
                 rightArm.moveTarget(rightXAxis, rightYAxis, rightZAxis);
                 rightArm.moveHand(rightRotation180, rightRotation360);         
                 toolManager(leftArm, rightArm, patient, tissue);
+       
                 window.getChildren().add(4,WindowHandler.percentage(patientCounter, tumorCounter));
                 window.getChildren().remove(5);
                 
@@ -288,6 +290,17 @@ public class KeyboardInputsHandler
             }
         });
     }
+	
+	/**
+	 * This method reset all the program, rstore the tissue and the initial position of arms.
+	 */
+	private void fullReset(Arm leftArm, Arm rightArm, Patient patient) {
+		rightArm.reset();
+		leftArm.reset();
+		patient.reset();
+		patientCounter = 0;
+		tumorCounter = 0;
+	}
 	
 	/**
 	 * @author Ettore Gorni
@@ -364,6 +377,7 @@ public class KeyboardInputsHandler
 	}
 	
 	/**
+	 * @author Michele Franceschetti
 	 * Resets all the attributes to the DEFAULT_VALUE.
 	 */
 	private void reset()
@@ -388,4 +402,5 @@ public class KeyboardInputsHandler
 		escape = false;
 		reset = false;
 	}
+	
 }

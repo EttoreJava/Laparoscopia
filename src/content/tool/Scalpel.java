@@ -25,13 +25,14 @@ public class Scalpel extends Tool
 	private static final double OFFSET_X_CORRECTION = 50.0;
 	
 	private Sphere[] model = new Sphere[28];
-	/*
+	
+	/**
 	 * The file path is relative to the bin folder.
 	 */
 	private static final String MESH_PATH = "/models/Knife.obj";
 	
 	/**
-	 * Constructor for the Forceps class.
+	 * Constructor for the Forceps class. It also builds the model.
 	 * 
 	 * @param type The tool type.
 	 */
@@ -58,7 +59,6 @@ public class Scalpel extends Tool
 		for(int i=0; i<model.length; i++) {
 			model[i] = new Sphere(RADIUS);
 			model[i].setMaterial(blackMaterial);
-			//model[i].setVisible(false);
 		}
 	}
 	

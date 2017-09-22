@@ -73,6 +73,20 @@ public class Patient
 		createMesh();
 	}
 	
+	/**
+	 * @author Ettore Gorni
+	 * this method reset all the data about the patient (visibility)
+	 */
+	public void reset() {
+		for (int i=0; i<X_VALUE; i++){
+			for (int j=0; j<Y_VALUE; j++){
+				for (int k=0; k<Z_VALUE; k++){
+					if(patientModel[i][j][k]!=null) patientModel[i][j][k].setVisible(true);
+				}
+			}
+		}
+	}
+	
 	//Getters and setters
 	
 	/**
@@ -181,7 +195,8 @@ public class Patient
 	
 	/**
 	 * @author Ettore Gorni
-	 * @return ArrayList with different pieces of patient stored in a set
+	 * @return ArrayList with different pieces of patient stored in a set, you can use this to know how many
+	 * pieces there are and also how much sphere is a piece composed with.
 	 * 
 	 * NB: L'algoritmo utilizza un array booleano ausiliario per sapere quali elementi ono gia stati analizzati
 	 * esso funziona osservando tutti gli elementi vicini e poi, quando questi ultimi sono stati ultimati, riparte
@@ -375,5 +390,4 @@ public class Patient
 			return description.toString();
 		}
 	}
- 
 }

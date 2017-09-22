@@ -15,7 +15,8 @@ public class VacuumCleaner extends Tool
 	private static final double OFFSET_X_CORRECTION = 50.0;
 	private static final double DISTANCE =  OFFSET_X_CORRECTION / 2.0;
 	private static final String ACTION = "Vacuuming";
-	/*
+	
+	/**
 	 * The file path is relative to the bin folder.
 	 */
 	private static final String MESH_PATH = "/models/VacuumCleaner.obj";
